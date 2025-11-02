@@ -1,23 +1,23 @@
-# Online Auction Management System (MVP)
+# Online Auction Management System 
 
 A Minimum Viable Product (MVP) for a web-based online auction platform. Users can register, list items for sale, and bid on items listed by other users. The application is built using Python with the Streamlit framework for the user interface and MySQL for the database backend.
 
 For a more detailed setup guide, including troubleshooting and connecting with MySQL Workbench, please see [setup.md](setup.md).
 
-## ✨ Features
+##  Features
 
 *   **User Management:** Secure user registration and login system with distinct roles.
 *   **Item Listings:** Sellers can list items for auction with a name, description, and a starting base price.
 *   **Bidding System:** Buyers can browse available items and place bids.
 *   **Data Integrity:** Foreign key constraints in the database ensure relationships between users, items, and bids are maintained.
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 *   **Framework:** [Streamlit](https://streamlit.io/)
 *   **Language:** Python 3
 *   **Database:** MySQL
 
-## 🚀 Getting Started
+##  Getting Started
 
 Follow these steps to get the application running on your local machine.
 
@@ -128,7 +128,7 @@ streamlit run app.py
 
 The application will be available in your web browser at `http://localhost:8501`.
 
-## 🗃️ Database Schema
+##  Database Schema
 
 The application relies on a simple yet effective relational database schema:
 
@@ -152,7 +152,7 @@ Potential areas for future development include:
 =======
 ## 📝 License
 
-This project is open source and available under the [MIT License](LICENSE).
+This project is open source and available under the [GNU License](LICENSE).
 
 ## 🆘 Support
 

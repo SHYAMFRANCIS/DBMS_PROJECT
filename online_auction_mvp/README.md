@@ -1,113 +1,101 @@
-# Online Auction Management System
+# Online Auction Management System (MVP)
 
-An online auction platform built with Python, MySQL, and Streamlit that allows sellers to list items and buyers to bid on them.
+A Minimum Viable Product (MVP) for a web-based online auction platform. Users can register, list items for sale, and bid on items listed by other users. The application is built using Python with the Streamlit framework for the user interface and MySQL for the database backend.
 
-## 🚀 Features
+For a more detailed setup guide, including troubleshooting and connecting with MySQL Workbench, please see [setup.md](setup.md).
 
-- User authentication (register/login)
-- Role-based dashboards (buyer/seller)
-- Item listing and browsing
-- Real-time bidding system
-- Bid tracking and history
-- CSV export for reports
-- Secure password hashing
+## ✨ Features
 
-## 🛠️ Tech Stack
+*   **User Management:** Secure user registration and login system with distinct roles.
+*   **Item Listings:** Sellers can list items for auction with a name, description, and a starting base price.
+*   **Bidding System:** Buyers can browse available items and place bids.
+*   **Data Integrity:** Foreign key constraints in the database ensure relationships between users, items, and bids are maintained.
 
-- **Frontend:** Streamlit
-- **Backend:** Python
-- **Database:** MySQL
-- **Libraries:** mysql-connector-python, pandas, bcrypt
+## 🛠️ Technology Stack
 
-## 📋 Prerequisites
+*   **Framework:** [Streamlit](https://streamlit.io/)
+*   **Language:** Python 3
+*   **Database:** MySQL
 
-- Python 3.7+
-- MySQL Server
-- pip (Python package manager)
+## 🚀 Getting Started
 
-## 📦 Installation
+Follow these steps to get the application running on your local machine.
 
-1. **Clone or download** this repository to your local machine.
+### Prerequisites
 
-2. **Install Python dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+Ensure you have the following installed:
+*   Python 3.7+
+*   MySQL Server 8.0+
+*   Git (optional)
 
-3. **Set up MySQL database:**
-   - Make sure your MySQL server is running
-   - Update database credentials in `db_config.py` if needed (default assumes root user with no password)
-   - Execute the schema file to create the database and tables:
-     ```sql
-     mysql -u root -p < schema.sql
-     ```
+### 1. Clone the Repository
 
-4. **Run the application:**
-   ```bash
-   streamlit run app.py
-   ```
-
-## 🔐 Database Configuration
-
-The application expects a MySQL database named `auction_db`. By default, it connects using:
-- Host: localhost
-- Database: auction_db
-- Username: root
-- Password: (empty)
-- Port: 3306
-
-To change these settings, update the `DB_CONFIG` dictionary in `db_config.py`.
-
-## 🎮 How to Use
-
-1. **Registration:** New users can register with their name, email, password, and role (buyer or seller).
-
-2. **Login:** Registered users can log in with their email and password.
-
-3. **Seller Functions:**
-   - Add new items for auction
-   - View items they've listed
-   - See bids placed on their items
-
-4. **Buyer Functions:**
-   - Browse available auction items
-   - Place bids on items
-   - View their bidding history
-   - See top bids across all items
-
-## 🏗️ Project Structure
-
-```
-online_auction_mvp/
-│
-├── app.py                 # Main Streamlit application
-├── db_config.py           # Database connection and helper functions
-├── schema.sql             # MySQL database schema
-├── requirements.txt       # Python dependencies
-├── README.md              # Project documentation
-└── assets/                # Optional images or logos
+```bash
+git clone https://github.com/yourusername/online-auction-mvp.git
+cd online-auction-mvp
 ```
 
-## 📁 Database Schema
+### 2. Set Up a Virtual Environment
 
-The system uses three main tables:
+It is highly recommended to use a virtual environment to manage project dependencies.
 
-1. **users** - Stores user information (ID, name, email, password, role)
-2. **items** - Stores auction items (ID, name, description, base price, seller ID)
-3. **bids** - Stores bid information (ID, item ID, buyer ID, bid amount, timestamp)
+```bash
+# Create the environment
+python -m venv venv
+
+# Activate the environment
+# On Windows:
+venv\Scripts\activate
+# On macOS/Linux:
+source venv/bin/activate
+```
+
+### 3. Install Dependencies
+
+Install the required Python packages.
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Database Setup
+
+1.  Make sure your MySQL server is running.
+2.  Execute the `schema.sql` script to create the database and tables. You will be prompted for your MySQL root password.
+
+    ```bash
+    mysql -u root -p < schema.sql
+    ```
+
+3.  **(Optional)** If your MySQL credentials are not the default (`root`/`12345678`), update them in the `db_config.py` file.
+
+### 5. Run the Application
+
+Start the Streamlit development server.
+
+```bash
+streamlit run app.py
+```
+
+The application will be available in your web browser at `http://localhost:8501`.
+
+## 🗃️ Database Schema
+
+The application relies on a simple yet effective relational database schema:
+
+*   `users`: Stores user information, including credentials and roles.
+    -   `user_id`, `name`, `email`, `password_hash`, `role`
+*   `items`: Contains details about the items up for auction.
+    -   `item_id`, `name`, `description`, `base_price`, `seller_id` (FK to `users`)
+*   `bids`: Records all bids placed on items.
+    -   `bid_id`, `item_id` (FK to `items`), `buyer_id` (FK to `users`), `bid_amount`, `bid_time`
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+This is an MVP, and there is plenty of room for improvement. Contributions are welcome! Feel free to fork the repository, make changes, and submit a pull request.
 
-## 📝 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## 🆘 Support
-
-If you encounter any issues or have questions, please file an issue in the repository.
+Potential areas for future development include:
+*   Real-time bidding updates with websockets.
+*   Auction end times and automatic winner selection.
+*   User dashboards to view listed items and bidding history.
+*   Image uploads for auction items.

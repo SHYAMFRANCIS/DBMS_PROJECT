@@ -31,11 +31,60 @@ Ensure you have the following installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/online-auction-mvp.git
+git clone https://github.com/SHYAMFRANCIS/DBMS_PROJECT.git
 cd online-auction-mvp
 ```
 
 ### 2. Set Up a Virtual Environment
+=======
+4. **Run the application:**
+   ```bash
+   streamlit run app.py
+   ```
+
+##  Database Configuration
+
+The application expects a MySQL database named `auction_db`. By default, it connects using:
+- Host: localhost
+- Database: auction_db
+- Username: root
+- Password: (empty)
+- Port: 3306
+
+To change these settings, update the `DB_CONFIG` dictionary in `db_config.py`.
+
+##  How to Use
+
+1. **Registration:** New users can register with their name, email, password, and role (buyer or seller).
+
+2. **Login:** Registered users can log in with their email and password.
+
+3. **Seller Functions:**
+   - Add new items for auction
+   - View items they've listed
+   - See bids placed on their items
+
+4. **Buyer Functions:**
+   - Browse available auction items
+   - Place bids on items
+   - View their bidding history
+   - See top bids across all items
+
+##  Project Structure
+
+```
+online_auction_mvp/
+│
+├── app.py                 # Main Streamlit application
+├── db_config.py           # Database connection and helper functions
+├── schema.sql             # MySQL database schema
+├── requirements.txt       # Python dependencies
+├── README.md              # Project documentation
+└── assets/                # Optional images or logos
+```
+
+##  Database Schema
+>>>>>>> d91258964ba538d1c69f31d72e22a5683b87c740
 
 It is highly recommended to use a virtual environment to manage project dependencies.
 
@@ -90,12 +139,22 @@ The application relies on a simple yet effective relational database schema:
 *   `bids`: Records all bids placed on items.
     -   `bid_id`, `item_id` (FK to `items`), `buyer_id` (FK to `users`), `bid_amount`, `bid_time`
 
-## 🤝 Contributing
+##  Contributing
 
 This is an MVP, and there is plenty of room for improvement. Contributions are welcome! Feel free to fork the repository, make changes, and submit a pull request.
 
+<<<<<<< HEAD
 Potential areas for future development include:
 *   Real-time bidding updates with websockets.
 *   Auction end times and automatic winner selection.
 *   User dashboards to view listed items and bidding history.
 *   Image uploads for auction items.
+=======
+## 📝 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## 🆘 Support
+
+If you encounter any issues or have questions, please file an issue in the repository.
+>>>>>>> d91258964ba538d1c69f31d72e22a5683b87c740

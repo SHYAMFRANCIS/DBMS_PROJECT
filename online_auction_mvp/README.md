@@ -1,4 +1,4 @@
-# Online Auction Management System 
+# Online Auction Management System
 
 A Minimum Viable Product (MVP) for a web-based online auction platform. Users can register, list items for sale, and bid on items listed by other users. The application is built using Python with the Streamlit framework for the user interface and MySQL for the database backend.
 
@@ -24,8 +24,8 @@ Follow these steps to get the application running on your local machine.
 ### Prerequisites
 
 Ensure you have the following installed:
-*   Python 3.7+
-*   MySQL Server 8.0+
+*   Docker and Docker Compose (for containerized installation - recommended)
+*   OR Python 3.7+ and MySQL Server 8.0+ (for local installation)
 *   Git (optional)
 
 ### 1. Clone the Repository
@@ -35,12 +35,70 @@ git clone https://github.com/SHYAMFRANCIS/DBMS_PROJECT.git
 cd online-auction-mvp
 ```
 
-### 2. Set Up a Virtual Environment
-=======
-4. **Run the application:**
-   ```bash
-   streamlit run app.py
-   ```
+### 2. Running with Docker (Recommended)
+
+The easiest way to run the application is using Docker Compose, which will set up both the application and MySQL database in containers:
+
+```bash
+# Make sure Docker and docker-compose are installed
+# From the project directory, run:
+docker-compose up
+```
+
+The application will be available in your web browser at `http://localhost:8501`.
+
+To stop the services, press `Ctrl+C` or run:
+```bash
+docker-compose down
+```
+
+### 3. Local Installation (Alternative Method)
+
+If you prefer to run the application locally without Docker:
+
+#### Set Up a Virtual Environment
+
+It is highly recommended to use a virtual environment to manage project dependencies.
+
+```bash
+# Create the environment
+python -m venv venv
+
+# Activate the environment
+# On Windows:
+venv\Scripts\activate
+# On macOS/Linux:
+source venv/bin/activate
+```
+
+#### Install Dependencies
+
+Install the required Python packages.
+
+```bash
+pip install -r requirements.txt
+```
+
+#### Database Setup
+
+1.  Make sure your MySQL server is running.
+2.  Execute the `schema.sql` script to create the database and tables. You will be prompted for your MySQL root password.
+
+    ```bash
+    mysql -u root -p < schema.sql
+    ```
+
+3.  **(Optional)** If your MySQL credentials are not the default (`root`/`12345678`), update them in the `db_config.py` file.
+
+#### Run the Application
+
+Start the Streamlit development server.
+
+```bash
+streamlit run app.py
+```
+
+The application will be available in your web browser at `http://localhost:8501`.
 
 ##  Database Configuration
 
@@ -80,53 +138,10 @@ online_auction_mvp/
 ├── schema.sql             # MySQL database schema
 ├── requirements.txt       # Python dependencies
 ├── README.md              # Project documentation
-└── assets/                # Optional images or logos
+├── Dockerfile             # Docker configuration
+├── docker-compose.yml     # Docker Compose configuration
+└── setup.md               # Detailed setup guide
 ```
-
-##  Database Schema
->>>>>>> d91258964ba538d1c69f31d72e22a5683b87c740
-
-It is highly recommended to use a virtual environment to manage project dependencies.
-
-```bash
-# Create the environment
-python -m venv venv
-
-# Activate the environment
-# On Windows:
-venv\Scripts\activate
-# On macOS/Linux:
-source venv/bin/activate
-```
-
-### 3. Install Dependencies
-
-Install the required Python packages.
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Database Setup
-
-1.  Make sure your MySQL server is running.
-2.  Execute the `schema.sql` script to create the database and tables. You will be prompted for your MySQL root password.
-
-    ```bash
-    mysql -u root -p < schema.sql
-    ```
-
-3.  **(Optional)** If your MySQL credentials are not the default (`root`/`12345678`), update them in the `db_config.py` file.
-
-### 5. Run the Application
-
-Start the Streamlit development server.
-
-```bash
-streamlit run app.py
-```
-
-The application will be available in your web browser at `http://localhost:8501`.
 
 ##  Database Schema
 
@@ -143,13 +158,12 @@ The application relies on a simple yet effective relational database schema:
 
 This is an MVP, and there is plenty of room for improvement. Contributions are welcome! Feel free to fork the repository, make changes, and submit a pull request.
 
-<<<<<<< HEAD
 Potential areas for future development include:
 *   Real-time bidding updates with websockets.
 *   Auction end times and automatic winner selection.
 *   User dashboards to view listed items and bidding history.
 *   Image uploads for auction items.
-=======
+
 ## 📝 License
 
 This project is open source and available under the [GNU License](LICENSE).
@@ -157,4 +171,3 @@ This project is open source and available under the [GNU License](LICENSE).
 ## 🆘 Support
 
 If you encounter any issues or have questions, please file an issue in the repository.
->>>>>>> d91258964ba538d1c69f31d72e22a5683b87c740

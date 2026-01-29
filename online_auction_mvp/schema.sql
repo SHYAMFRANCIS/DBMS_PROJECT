@@ -1,10 +1,10 @@
 
 
--- Database: auction_db
+
 CREATE DATABASE IF NOT EXISTS auction_db;
 USE auction_db;
 
--- Table: users
+
 CREATE TABLE IF NOT EXISTS users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
     role ENUM('buyer', 'seller') NOT NULL
 );
 
--- Table: items
+
 CREATE TABLE IF NOT EXISTS items (
     item_id INT AUTO_INCREMENT PRIMARY KEY,
     item_name VARCHAR(100) NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS items (
     FOREIGN KEY (seller_id) REFERENCES users(user_id)
 );
 
--- Table: bids
+
 CREATE TABLE IF NOT EXISTS bids (
     bid_id INT AUTO_INCREMENT PRIMARY KEY,
     item_id INT,
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS bids (
     FOREIGN KEY (buyer_id) REFERENCES users(user_id)
 );
 
--- Indexes for better performance
+
 CREATE INDEX idx_items_seller_id ON items(seller_id);
 CREATE INDEX idx_bids_item_id ON bids(item_id);
 CREATE INDEX idx_bids_buyer_id ON bids(buyer_id);

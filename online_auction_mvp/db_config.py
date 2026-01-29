@@ -2,14 +2,18 @@ import mysql.connector
 from mysql.connector import Error
 import bcrypt
 import pandas as pd
+from dotenv import load_dotenv
+import os
 
-# Database configuration
+# Load environment variables
+load_dotenv()
+
 DB_CONFIG = {
-    'host': 'localhost',
-    'database': 'auction_db',
-    'user': 'root',  # Modify these credentials as per your MySQL setup
-    'password': '12345678',  # Modify these credentials as per your MySQL setup
-    'port': 3306
+    'host': os.getenv('DB_HOST', 'localhost'),
+    'database': os.getenv('DB_NAME', 'auction_db'),
+    'user': os.getenv('DB_USER', 'root'),  
+    'password': os.getenv('DB_PASSWORD', '12345678'),  # Default for backward compatibility, but recommend using env file
+    'port': int(os.getenv('DB_PORT', 3306))
 }
 
 def create_connection():
@@ -34,17 +38,17 @@ def register_user(name, email, password, role):
     
     try:
         cursor = connection.cursor()
-        # Hash the password
+       
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         
-        # Insert user into database
+        
         query = "INSERT INTO users (name, email, password, role) VALUES (%s, %s, %s, %s)"
         cursor.execute(query, (name, email, hashed_password.decode('utf-8'), role))
         connection.commit()
         
         return True, "User registered successfully"
     except Error as e:
-        if e.errno == 1062:  # Duplicate entry error
+        if e.errno == 1062:  
             return False, "Email already exists"
         return False, f"Error registering user: {e}"
     finally:
@@ -67,7 +71,7 @@ def login_user(email, password):
         user = cursor.fetchone()
         
         if user:
-            # Check if the password matches
+            
             if bcrypt.checkpw(password.encode('utf-8'), user['password'].encode('utf-8')):
                 return user, "Login successful"
             else:
@@ -92,7 +96,7 @@ def add_item(item_name, description, base_price, seller_id):
     try:
         cursor = connection.cursor()
         
-        # Insert item into database
+        
         query = "INSERT INTO items (item_name, description, base_price, seller_id) VALUES (%s, %s, %s, %s)"
         cursor.execute(query, (item_name, description, base_price, seller_id))
         connection.commit()
@@ -168,7 +172,7 @@ def place_bid(item_id, buyer_id, bid_amount):
     try:
         cursor = connection.cursor()
         
-        # Check if the item exists
+       
         item_query = "SELECT base_price FROM items WHERE item_id = %s"
         cursor.execute(item_query, (item_id,))
         item = cursor.fetchone()
@@ -176,11 +180,11 @@ def place_bid(item_id, buyer_id, bid_amount):
         if not item:
             return False, "Item does not exist"
         
-        # Check if bid amount is higher than base price
+       
         if bid_amount <= item[0]:
             return False, f"Bid must be higher than base price of {item[0]}"
         
-        # Check if there are existing bids for this item
+        
         bid_query = "SELECT MAX(bid_amount) as max_bid FROM bids WHERE item_id = %s"
         cursor.execute(bid_query, (item_id,))
         result = cursor.fetchone()
@@ -189,7 +193,7 @@ def place_bid(item_id, buyer_id, bid_amount):
         if max_bid is not None and bid_amount <= max_bid:
             return False, f"Bid must be higher than current highest bid of {max_bid}"
         
-        # Insert the bid into the database
+       
         query = "INSERT INTO bids (item_id, buyer_id, bid_amount) VALUES (%s, %s, %s)"
         cursor.execute(query, (item_id, buyer_id, bid_amount))
         connection.commit()

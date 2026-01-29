@@ -1,0 +1,52 @@
+services:
+  # MySQL Database Service
+  mysql:
+    image: mysql:8.0
+    container_name: auction_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345678
+      MYSQL_DATABASE: auction_db
+      MYSQL_USER: auction_user
+      MYSQL_PASSWORD: auction_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    networks:
+      - auction_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Streamlit Application Service
+  app:
+    build: .
+    container_name: auction_app
+    restart: unless-stopped
+    ports:
+      - "8501:8501"
+    environment:
+      - DB_HOST=mysql
+      - DB_NAME=auction_db
+      - DB_USER=auction_user
+      - DB_PASSWORD=auction_pass
+      - DB_PORT=3306
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./app.py:/app/app.py
+      - ./db_config.py:/app/db_config.py
+      - ./requirements.txt:/app/requirements.txt
+    networks:
+      - auction_network
+
+volumes:
+  mysql_data:
+
+networks:
+  auction_network:
+    driver: bridge

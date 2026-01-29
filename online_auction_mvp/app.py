@@ -6,12 +6,12 @@ from db_config import (
     get_item_bids_by_seller, highest_bids, get_user_by_id
 )
 
-# Initialize session state
+
 if 'user' not in st.session_state:
     st.session_state.user = None
     st.session_state.page = 'login'
 
-# Title of the app
+
 st.set_page_config(page_title="Online Auction System", page_icon="🔨", layout="wide")
 st.title("🔨 Online Auction Management System")
 
@@ -56,7 +56,7 @@ def logout():
 def seller_dashboard():
     st.header(f"Seller Dashboard - Welcome, {st.session_state.user['name']}")
     
-    # Navigation
+   
     seller_pages = ["Home", "Add Item", "View My Items", "My Item Bids"]
     seller_page = st.sidebar.selectbox("Seller Menu", seller_pages)
     
@@ -116,7 +116,7 @@ def seller_dashboard():
             })
             st.dataframe(df)
             
-            # Option to download bids as CSV
+           
             csv = df.to_csv(index=False)
             st.download_button(
                 label="Download bids as CSV",
@@ -130,7 +130,7 @@ def seller_dashboard():
 def buyer_dashboard():
     st.header(f"Buyer Dashboard - Welcome, {st.session_state.user['name']}")
     
-    # Navigation
+ 
     buyer_pages = ["Browse Items", "Place Bid", "My Bids", "Top Bids"]
     buyer_page = st.sidebar.selectbox("Buyer Menu", buyer_pages)
     
@@ -156,12 +156,12 @@ def buyer_dashboard():
         items, msg = view_items()
         
         if items:
-            # Get item names for selection
+           
             item_options = {item['item_name']: item['item_id'] for item in items}
             selected_item_name = st.selectbox("Select Item", options=list(item_options.keys()))
             selected_item_id = item_options[selected_item_name]
             
-            # Get item details
+            
             item, msg = get_item_by_id(selected_item_id)
             
             if item:
@@ -169,7 +169,7 @@ def buyer_dashboard():
                 st.write(f"**Description:** {item['description']}")
                 st.write(f"**Base Price:** ${item['base_price']:.2f}")
                 
-                # Get current highest bid
+                
                 bids, msg = get_bids_for_item(selected_item_id)
                 if bids:
                     highest_bid = max(bids, key=lambda x: x['bid_amount'])
@@ -209,7 +209,7 @@ def buyer_dashboard():
             })
             st.dataframe(df)
             
-            # Option to download bids as CSV
+            
             csv = df.to_csv(index=False)
             st.download_button(
                 label="Download my bids as CSV",
@@ -234,7 +234,7 @@ def buyer_dashboard():
             })
             st.dataframe(df)
             
-            # Option to download highest bids as CSV
+            
             if not df.empty:
                 csv = df.to_csv(index=False)
                 st.download_button(
@@ -247,7 +247,7 @@ def buyer_dashboard():
             st.info("No bids have been placed yet.")
 
 def main():
-    # Show login/register options if not logged in
+   
     if st.session_state.user is None:
         st.sidebar.title("Navigation")
         page = st.sidebar.radio("Go to", ["Login", "Register"])
@@ -257,16 +257,17 @@ def main():
         else:
             register_page()
     else:
-        # Show logout button if logged in
+        
         col1, col2 = st.columns([4, 1])
         with col2:
             if st.button("Logout"):
                 logout()
         
-        # Show appropriate dashboard based on user role
+        
         if st.session_state.user['role'] == 'seller':
             seller_dashboard()
-        else:  # buyer
+        else:  
+            
             buyer_dashboard()
 
 if __name__ == "__main__":

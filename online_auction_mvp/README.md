@@ -167,7 +167,3 @@ Potential areas for future development include:
 ## 📝 License
 
 This project is open source and available under the [GNU License](LICENSE).
-
-## 🆘 Support
-
-If you encounter any issues or have questions, please file an issue in the repository.
